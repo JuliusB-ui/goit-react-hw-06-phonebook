@@ -1,15 +1,19 @@
 import { useState } from 'react';
-import { nanoid } from 'nanoid';
 import css from './Form.module.css';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { getContacts } from '../../redux/selector';
+import { addContact } from '../../redux/contactSlice';
 
-export const Form =({addContact, contacts}) => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+export const Form =() => {
+const dispatch = useDispatch();
+const [name, setName] = useState('');
+const [number, setNumber] = useState('');
+const contacts = useSelector(getContacts);
 
   const handleNameChange = e => {
-    setName(e.target.value)
+    setName(e.target.value);
   }
 
   const handleNumberChange = e => {
@@ -23,19 +27,14 @@ export const Form =({addContact, contacts}) => {
       return;
     }
 
-    const existingContact=contacts.find(contact => contact.name.toLowerCase()=== name.toLowerCase())
+    const existingContact = contacts.find(contact => contact.name.toLowerCase()=== name.toLowerCase())
     if (existingContact) {
       toast(`${name} is already in contacts!`);
       return;
     }
 
         // Add Contact
-    addContact({
-      id: nanoid(),
-      name: name.trim(),
-      number: number.trim(),
-    });
-
+    dispatch(addContact(name, number));
     // Reset Form Fields upon submitting
     setName('');
     setNumber('');
@@ -78,7 +77,6 @@ export const Form =({addContact, contacts}) => {
 }
 
 Form.propTypes = {
-    addContact: PropTypes.func.isRequired,
     contacts: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,

@@ -1,11 +1,14 @@
 import css from './Filter.module.css';
-import PropTypes from 'prop-types';
+import { setFilter } from '../../redux/filterSlice';
+import { useDispatch } from 'react-redux';
 
-export const Filter = ({ filter, setFilter }) => {
-  //filter name based on the the search keyword
-  const handleFilterChange = e => {
-    setFilter(e.target.value);
-  };
+export const Filter = () => {
+  const dispatch = useDispatch();
+
+    //filter name based on the the search keyword
+    const handleFilterChange = e => {
+      dispatch(setFilter(e.target.value));
+    };
 
   return (
     <div className={css.container}>
@@ -15,14 +18,8 @@ export const Filter = ({ filter, setFilter }) => {
         type="text"
         name="filter"
         placeholder="Search by name"
-        value={filter}
         onChange={handleFilterChange}
       />
     </div>
   );
-};
-
-Filter.propTypes = {
-  filter: PropTypes.string.isRequired,
-  setFilter: PropTypes.func.isRequired,
 };

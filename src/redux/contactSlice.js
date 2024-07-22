@@ -15,12 +15,12 @@ const contactsSlice = createSlice({
             reducer(state, action) {
                 state.push(action.payload);
             },
-            prepare(name, number) {
-                return{
+            prepare: (name, number) => {
+                return {
                     payload: {
                         id:nanoid(),
-                        name,
-                        number,
+                        name: name.trim(),
+                        number: number.trim(),
                     }
                 }
             }

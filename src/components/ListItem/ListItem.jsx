@@ -1,10 +1,13 @@
+import { useDispatch } from 'react-redux';
 import css from './ListItem.module.css';
 import PropTypes from 'prop-types';
+import { deleteContact } from '../../redux/contactSlice';
 
-export const ListItem = ({ filteredContact, deleteContact }) => {
+export const ListItem = ({ filteredContact }) => {
   // handleDelete method
+  const dispatch=useDispatch();
   const handleDelete = () => {
-    deleteContact(filteredContact.id);
+    dispatch(deleteContact(filteredContact.id));
   };
 
   return (
@@ -20,5 +23,4 @@ export const ListItem = ({ filteredContact, deleteContact }) => {
 
 ListItem.propTypes = {
   filteredContact: PropTypes.object.isRequired,
-  deleteContact: PropTypes.func.isRequired,
 };
